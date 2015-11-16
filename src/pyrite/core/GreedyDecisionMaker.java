@@ -6,10 +6,12 @@ import java.util.List;
 
 public class GreedyDecisionMaker implements GraphFolder.DecisionMaker {
 
+    @Override
     public boolean hasFiniteTraversal() {
         return true;
     }
 
+    @Override
     public Node getNextNode(Graph g) {
         return null;
     }
@@ -19,13 +21,14 @@ public class GreedyDecisionMaker implements GraphFolder.DecisionMaker {
         return null;
     }
 
+    @Override
     public double[] decisionMaker(double[] perception) {
         double[] actionsScore = new double[]{};
         return actionsScore;
     }
 
     @Override
-    public double[] generatePerception() {
+    public double[] generatePerception(Node n) {
         return null;
     }
 

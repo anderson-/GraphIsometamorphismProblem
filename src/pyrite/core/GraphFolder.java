@@ -1,10 +1,16 @@
 package pyrite.core;
 
+import de.jg3d.Edge;
 import de.jg3d.Graph;
 import de.jg3d.Node;
+import de.jg3d.Vector;
 import java.util.List;
 
 public class GraphFolder {
+
+    static final int NODE_TYPE_NEW_EXTENSION = 0;
+    static final int NODE_TYPE_EXTENSION = 1;
+    static final int NODE_TYPE_COMPONENT = 2;
 
     public interface DecisionMaker {
 
@@ -16,7 +22,7 @@ public class GraphFolder {
 
         public double[] decisionMaker(double[] perception);
 
-        public double[] generatePerception();
+        public double[] generatePerception(Node n);
 
         public double performAction(double[] actionsScore);
     }
@@ -30,9 +36,15 @@ public class GraphFolder {
             public void drawEdge();
         }
 
-        public List<int[]> getNeighborhood(int[] point);
+        public boolean isSatisfied(Edge e);
 
-        public int[] getClosestNeighbor(double[] point);
+        public double getDensity(Graph g);
+
+        public int getMaxNeighborCount();
+
+        public List<Vector> getNeighborhood(Vector point);
+
+        public Vector getClosestNeighbor(Vector point);
 
         public void spawn(Builder builder, int width, int height, int depth);
     }
@@ -42,18 +54,18 @@ public class GraphFolder {
         if (d.hasFiniteTraversal()) {
             List<Node> traversing = d.getTraversing(g);
             for (Node n : traversing) {
-                score += d.performAction(d.decisionMaker(d.generatePerception()));
+                score += d.performAction(d.decisionMaker(d.generatePerception(n)));
             }
         } else {
             Node n;
             while ((n = d.getNextNode(g)) != null) {
-                score += d.performAction(d.decisionMaker(d.generatePerception()));
+                score += d.performAction(d.decisionMaker(d.generatePerception(n)));
             }
         }
         return score + getScore(g);
     }
 
-    public static double getScore(Graph g) {
+    private static double getScore(Graph g) {
         return 0;
     }
 
